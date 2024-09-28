@@ -13,14 +13,17 @@ return new class extends Migration
     {
         Schema::create('workorders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->string('nomor_tiket');
-            $table->string('tipe_segmen');
-            $table->string('lokasi_gangguan_masal');
-            $table->text('deskripsi_gangguan');
-            $table->text('instruksi_pekerjaan');
+            $table->string('witel');
+            $table->string('sto');
+            $table->string('headline');
+            $table->string('lat');
+            $table->string('lng');
             $table->string('status')->default('Waiting'); // Status default Menunggu
-            $table->text('keterangan_perbaikan')->nullable();
+            $table->string('evidence_before')->nullable();
+            $table->string('evidence_after')->nullable();
+            $table->string('catatan')->nullable();
             $table->timestamps();
         });
     }

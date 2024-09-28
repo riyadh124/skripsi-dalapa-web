@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('documentation_before_works', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('workorder_id');
-            $table->string('image');
+            $table->unsignedBigInteger('workorder_id');
+            $table->string('status');
+            $table->text('isi_notifikasi');
             $table->timestamps();
+
+            // Tambahkan foreign key constraint
+            $table->foreign('workorder_id')->references('id')->on('workorders')->onDelete('cascade');
         });
     }
 
@@ -24,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('documentation_before_works');
+        Schema::dropIfExists('notifications');
     }
 };

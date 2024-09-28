@@ -14,7 +14,7 @@ class DashboardWorkorderController extends Controller
     public function index()
     {
         return view('dashboard.workorder.index',[
-            'workorders' => Workorder::with('user','listMaterials.material', 'documentationBefore', 'documentationAfter')
+            'workorders' => Workorder::with('user','listMaterials.material',)
             ->get()
            ]);
     }
@@ -46,14 +46,11 @@ class DashboardWorkorderController extends Controller
      */
     public function show(Workorder $workorder)
     {
-       $docBefore = $workorder->documentationBefore;
-       $docAfter = $workorder->documentationAfter;
+      
        $listMaterials = $workorder->listMaterials()->with('material')->get();
 
         return view('dashboard.workorder.show', [
             'workorder' => $workorder,
-            'docBefores' => $docBefore,
-            'docAfters' => $docAfter,
             'listMaterials' => $listMaterials
         ]);
     }

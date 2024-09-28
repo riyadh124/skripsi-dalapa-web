@@ -17,12 +17,16 @@ class WorkorderFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => 1,
             'nomor_tiket' => 'TCKT-' . uniqid(),
-            'tipe_segmen' => ['Distribusi', 'Seeder'][random_int(0, 1)],
-            'lokasi_gangguan_masal' => $this->faker->address(),
-            'deskripsi_gangguan' => $this->faker->sentence(mt_rand(5,10)),
-            'instruksi_pekerjaan' =>  $this->faker->sentence(mt_rand(5,20)),
-            'status' => 'Waiting',
+            'witel' => ['Witel Jakarta', 'Witel Balikpapan'][random_int(0, 1)],
+            'sto' => $this->faker->address(),
+            'headline' => $this->faker->sentence(mt_rand(5,10)),
+            'lat' => -6.2088,
+            'lng' => 106.8456,
+            "evidence_before" => "path/to/evidence_before.jpg",
+            "evidence_after" => "path/to/evidence_after.jpg",
+            "status" => "Waiting"
             // 'foto_sebelum_pekerjaan' => json_encode(['image1.jpg', 'image2.jpg']),
             // 'list_material' => json_encode([
             //     ['nama' => 'material 1', 'harga' => 50000, 'total' => 5],

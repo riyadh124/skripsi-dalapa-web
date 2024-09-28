@@ -33,6 +33,7 @@ Route::get('/about', function () {
 
 
 // Route::get('/login',[AuthController::class,'index'])->name('login')->middleware('guest');
+Route::get('/material-transactions',[ DashboardController::class,'index'])->name('material.transactions');
 
 Route::get('/login',[AuthController::class,'index'])->name('login')->middleware('guest');
 Route::post('/login',[AuthController::class,'authenticate']);
@@ -45,3 +46,5 @@ Route::resource('/dashboard/material',DashboardMaterialController::class)->middl
 Route::resource('/dashboard/user',DashboardUserController::class)->middleware('auth');
 
 Route::resource('/workorder',WorkorderController::class);
+Route::patch('/dashboard/workorder/{workorder}/update-status', [WorkorderController::class, 'updateStatus'])->name('workorder.updateStatus');
+Route::post('/dashboard/workorder/{workorder}/add-note', [WorkorderController::class, 'addNote'])->name('workorder.addNote');

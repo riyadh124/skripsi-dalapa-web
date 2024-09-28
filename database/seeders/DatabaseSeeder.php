@@ -8,6 +8,7 @@ use App\Models\Material;
 use App\Models\Workorder;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,7 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-         Workorder::factory(10)->create();
+       
 
          Material::create([
             'nama' => "Network Combat",
@@ -38,7 +39,13 @@ class DatabaseSeeder extends Seeder
             'harga' => 100000
          ]);
 
-        User::factory()->create([
+         User::factory()->create([
+         'name' => 'Admin',
+         'email' => 'admin@gmail.com',
+         'role' => 'Admin',
+         ]);
+   
+         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
@@ -47,21 +54,36 @@ class DatabaseSeeder extends Seeder
             'name' => 'Riyadh Asjad Mulyadi',
             'email' => 'riyadh@gmail.com',
         ]);
+        
+        // Workorder::factory(2)->create();
+
+    //     DB::table('notifications')->insert([
+    //        [
+    //            'workorder_id' => 1,
+    //            'created_at' => now(),
+    //            'status' => 'pending',
+    //            'isi_notifikasi' => 'Notifikasi pertama untuk workorder 1',
+    //            'created_at' => now(),
+    //            'updated_at' => now()
+    //        ],
+    //        [
+    //            'workorder_id' => 2,
+    //            'created_at' => now(),
+    //            'status' => 'completed',
+    //            'isi_notifikasi' => 'Notifikasi kedua untuk workorder 2',
+    //            'created_at' => now(),
+    //            'updated_at' => now()
+    //        ],
+    //    ]);
 
         User::factory()->create([
-         'name' => 'Agus Ackerman',
-         'email' => 'agus@gmail.com',
+            'name' => 'Agus Ackerman',
+            'email' => 'agus@gmail.com',
         ]);
 
         User::factory()->create([
-         'name' => 'Rahmat Kanaeru',
-         'email' => 'rahmat@gmail.com',
-        ]);
-
-        User::factory()->create([
-         'name' => 'Admin',
-         'email' => 'admin@gmail.com',
-         'role' => 'Admin',
+            'name' => 'Rahmat Kanaeru',
+            'email' => 'rahmat@gmail.com',
         ]);
 
         // Workorder::create([

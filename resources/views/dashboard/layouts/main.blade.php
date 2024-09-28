@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Rydhdev | Dashboard</title>
+    <title>DALAPA | Dashboard</title>
     <script src="/js/color-modes.js"></script>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/dashboard/">
 
@@ -20,6 +20,22 @@
     <style>
       trix-toolbar [data-trix-button-group="file-tools"]{
         display: none;
+      }
+
+      .custom-table {
+      
+      border: 1px solid #dee2e6;
+      border-radius: 0.25rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      overflow: hidden; /* Ensures border-radius works with box-shadow */
+      }
+
+      .custom-table th,
+      .custom-table td {
+          border: 1px solid #dee2e6;
+      }
+      .custom-table thead th {
+          background-color: #f8f9fa;
       }
     </style>
   </head>

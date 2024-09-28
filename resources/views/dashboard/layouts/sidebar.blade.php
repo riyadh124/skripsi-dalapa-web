@@ -32,7 +32,7 @@
           </li>
         </ul>
 
-        <hr class="my-3">
+        {{-- <hr class="my-3">
 
         <ul class="nav flex-column mb-auto">
           <li class="nav-item">
@@ -43,7 +43,7 @@
                   </button>
                 </form>
           </li>
-        </ul>
+        </ul> --}}
       </div>
     </div>
   </div>

@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('list_materials', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('workorder_id');
-            $table->foreignId('material_id');
+            $table->foreignId('workorder_id')->constrained('workorders')->onDelete('cascade');
+            $table->foreignId('material_id')->constrained('materials')->onDelete('cascade');
             $table->integer('count');
-            $table->string('image');
             $table->timestamps();
         });
     }

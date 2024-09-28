@@ -5,50 +5,53 @@ namespace App\Http\Controllers;
 use App\Models\Workorder;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $workorders = Workorder::with('listMaterials.material')->get();
-
-        $currentDateTime = Carbon::now();
-        $startTime24Hours = $currentDateTime->copy()->subHours(24);
-        $startTimeWeek = $currentDateTime->copy()->subWeek();
-        $startTimeMonth = $currentDateTime->copy()->subMonth();
-        $startTimeYear = $currentDateTime->copy()->subYear();
-        
-        $totalCost24Hours = 0;
-        $totalCostWeek = 0;
-        $totalCostMonth = 0;
-        $totalCostYear = 0;
-        
-        foreach ($workorders as $workorder) {
-            foreach ($workorder->listMaterials as $material) {
-                $materialCreatedAt = Carbon::parse($material->created_at);
-        
-                if ($materialCreatedAt->between($startTime24Hours, $currentDateTime)) {
-                    $totalCost24Hours += $material->count * $material->material->harga;
-                }
-        
-                if ($materialCreatedAt->between($startTimeWeek, $currentDateTime)) {
-                    $totalCostWeek += $material->count * $material->material->harga;
-                }
-        
-                if ($materialCreatedAt->between($startTimeMonth, $currentDateTime)) {
-                    $totalCostMonth += $material->count * $material->material->harga;
-                }
-        
-                if ($materialCreatedAt->between($startTimeYear, $currentDateTime)) {
-                    $totalCostYear += $material->count * $material->material->harga;
-                }
+        $query = DB::table('list_materials')
+            ->join('workorders', 'list_materials.workorder_id', '=', 'workorders.id')
+            ->join('materials', 'list_materials.material_id', '=', 'materials.id')
+            ->select('list_materials.*', 'workorders.nomor_tiket', 'materials.nama as material_nama', 'materials.harga as material_harga', 'list_materials.created_at')
+            ->where('workorders.status', 'complete'); // Filter untuk hanya menampilkan material dari workorder yang statusnya 'complete'
+    
+        $filter = $request->input('filter');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+    
+        if ($filter) {
+            switch ($filter) {
+                case 'daily':
+                    $query->whereDate('list_materials.created_at', Carbon::today());
+                    break;
+                case 'weekly':
+                    $query->whereBetween('list_materials.created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                    break;
+                case 'monthly':
+                    $query->whereMonth('list_materials.created_at', Carbon::now()->month);
+                    break;
+                case 'yearly':
+                    $query->whereYear('list_materials.created_at', Carbon::now()->year);
+                    break;
             }
         }
-        
-        return view('dashboard.index', compact('totalCost24Hours', 'totalCostWeek', 'totalCostMonth', 'totalCostYear'));
+    
+        if ($startDate && $endDate) {
+            $query->whereBetween('list_materials.created_at', [$startDate, $endDate]);
+        }
+    
+        $materialTransactions = $query->get();
+    
+        $totalCost = $materialTransactions->sum(function($transaction) {
+            return $transaction->material_harga * $transaction->count;
+        });
+    
+        return view('dashboard.index', compact('materialTransactions', 'totalCost'));
     }
 
 

@@ -5,23 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ListMaterial extends Model
+class Notification extends Model
 {
     use HasFactory;
-   
+
     protected $fillable = [
         'workorder_id',
-        'material_id',
-        'count',
+        'status',
+        'isi_notifikasi',
     ];
 
     public function workorder()
-    {
-        return $this->belongsTo(Workorder::class);
-    }
-
-    public function material()
-    {
-        return $this->belongsTo(Material::class);
-    }
+{
+    return $this->belongsTo(Workorder::class, 'workorder_id');
+}
 }

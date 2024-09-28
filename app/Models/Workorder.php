@@ -9,16 +9,31 @@ class Workorder extends Model
 {
     use HasFactory;
 
-    protected $guarded = [
-        'id',
+    protected $fillable = [
+        'user_id',
+        'nomor_tiket',
+        'witel',
+        'sto',
+        'headline',
+        'lat',
+        'lng',
+        'evidence_before',
+        'evidence_after',
+        'status',
     ];
+
+    public function listMaterials()
+    {
+        return $this->hasMany(ListMaterial::class);
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'workorder_id');
+    }
 
     public function user(){
         return $this->belongsTo(User::class,'user_id');
-    }
-
-    public function listMaterials(){
-        return $this->hasMany(ListMaterial::class);
     }
 
     public function documentationBefore(){
